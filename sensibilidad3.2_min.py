@@ -19,7 +19,7 @@ except:
 
 # To calculate final coeficient matrix
 
-#A es los coeficientes de la tabla simplex original, es decir, del problema oroginal en su forma estandar 
+#A es los coeficientes de la tabla simplex original, es decir, del problema original en su forma estandar 
 A = np.array([[-2,1,1,1,0],[1,-2,2,0,1]])
 
 print('La matriz de coeficientes del problema original en forma estandar es:')
