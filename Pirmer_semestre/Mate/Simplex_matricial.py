@@ -44,7 +44,7 @@ except:
     print("Singular Matrix, Inverse not possible.")
 
 
-# Then we calculate Cb* B-1*b
+# Then we calculate optimum value =  Cb* B-1*b
 valor_optimo_calculo_anterior = cb.dot(B_inv)
 valor_optimo_def = valor_optimo_calculo_anterior.dot(b)
 print('El valor optimo es:')
@@ -52,33 +52,21 @@ print(valor_optimo_def)
 
 
 
-
 # To calculate final coeficient matrix
-
-# orange is the coeficiente matrix in the last tableau table 
-orange = B_inv.dot(A)
+# Is the coeficiente matrix in the last tableau table 
+last_coef_matrix = B_inv.dot(A)
 print('La matriz de coeficientes del último tableau (óptimo) es:')
-print(orange)
+print(last_coef_matrix )
 
 
 # To calculate results vector
-
-
 #resultados son los valores que toman las variables basicas
-resultados = B_inv.dot(b)
-print('El vector de valores de las variables básicas en la solción es:')
-print(resultados)
+vector_resultados = B_inv.dot(b)
+print('El vector de resultados en la solción es:')
+print(vector_resultados)
 
 
-
-
-
-# To calculate Z resultante
-
-
-
-
-
+# To calculate vector Z resultante
 Z_res1 = cb.dot(B_inv)
 #print(Z_res1)
 Z_res2 = Z_res1.dot(A)
@@ -88,6 +76,8 @@ print('El vector de coeficientes de la función objetivo en el último tableu (�
 print(Z_resultante)
 
 
+
+# SENSITIVITY ANALYSIS 
 
 # To calculate sensibility analisis for b vector 
 b1_prima = np.array([b1,18,12])
@@ -133,7 +123,7 @@ C_prima = np.array([c1,4,0,0,0,-M])
 print(C_prima)
 cb_prima = np.array([c1,0,4])
 
-intermedio = cb_prima.dot(orange)
+intermedio = cb_prima.dot(last_coef_matrix)
 #print(intermedio)
 intermedio2 = intermedio - C_prima
 print('El vector de análisis de sensibilidad al cambiar C1 en función objetivo es:')
