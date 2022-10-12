@@ -6,7 +6,7 @@ from sympy import symbols
 M, b1, b2, b3, c1 = symbols('M, b1, b2, b3, c1')
 
 #A es la matriz de los coeficientes de las restricciones en la tabla simplex original, es decir, del problema original en su forma estandar 
-A = np.array([[1,0,3,-1,0,1,0],[0,2,2,0,-1,0,1]])
+A = np.array([[2,3,1,0,0],[1,2,0,-1,1]])
 print('La matriz de coeficientes del problema original en forma estandar es:')
 print(A)
 
@@ -17,21 +17,21 @@ print(A)
 #C son los valores de los coeficientes en la función objetivo (incluye slack, artificiales y de surplus)
 print('El vector C de coeficientes de la función objetivo es:')
 #Para maximo se resta M y para mínimo se suma M en C (función objetivo)
-C = np.array([4,12,18,0,0,M,M])
+C = np.array([2,3,0,0,M])
 print(C)
 
 # b= Vector de valores de las restricciones
 print('El vector de valores de la restricciones es:')
-b = np.array([3,5])
+b = np.array([30,10])
 print(b)
 
 
 #Para conocer los valores de B, B-1 y CB es necesario conocer cuales son las variables básicas en la última tabla del tableau de simplex
 #cb es el vector de coeficientes de valores de las bases en la función objetivo 
-cb = np.array([18,12])
+cb = np.array([0,3]) #s1 y x2 son las v básicas
 
 # B son los coeficientes de la base (que quedó al final del simplex) en la tabla simplex original
-B = np.array([[3,0],[2,2]])
+B = np.array([[1,3],[0,2]])
 print('La matriz de coeficientes de la base es:')
 print(B)
 
@@ -107,22 +107,6 @@ print('El precio sombra al mover 1 unidad el valor de la restricicón 2 es:')
 print(abs((max_min_shadow2)-valor_optimo_def))
 
 
-
-# Precio sombra de restricción 3 (valor de la tercer variable en el dual)
-b_shadow3 = np.array([b[0],b[1],b[2]+1])
-# To prove the impact of shadow prices In the b vector
-resultados_shadow3 = B_inv.dot(b_shadow3)
-print('El vector de resultados en la solución cambiados al mover 1 unidad el valor de la restricicón 3 es:')
-print(resultados_shadow3)
-# In max/min result 
-max_min_anterior = cb.dot(B_inv)
-max_min_shadow3 = max_min_anterior.dot(b_shadow3)
-print('El valor óptimo en la solución cambiado al mover 1 unidad el valor de la restricicón 3 es:')
-print(max_min_shadow3)
-print('El precio sombra al mover 1 unidad el valor de la restricicón 3 es:')
-print(abs((max_min_shadow3)-valor_optimo_def))
-
-
 #To determine values that can take coeficients in the objective function
 print('El vector de coeficientes C para determinar un cambio en C1 es:')
 C_prima = np.array([c1,5,0,0,0])
@@ -133,4 +117,4 @@ intermedio = cb_prima.dot(last_coef_matrix)
 #print(intermedio)
 intermedio2 = intermedio - C_prima
 print('El vector de análisis de sensibilidad al cambiar C1 en función objetivo es:')
-print(intermedio2)                                                                                                              
+print(intermedio2)
