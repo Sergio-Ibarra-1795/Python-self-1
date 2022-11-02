@@ -17,18 +17,24 @@ def parser(s):
 ##read data 
 demanda_petrolero = pd.read_csv(R'Demanda_petrolero.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
 
+demanda_petrolero.rename('Demanda', inplace= True)
 
-#Rename demand data 
-demanda_petrolero.rename('demanda', inplace= True)
 print(demanda_petrolero.head())
 
 
-## Ploting the data 2005 onwards 
 plt.figure(figsize=(10,4))
 plt.plot(demanda_petrolero)
-plt.title('Demanda de gas natural en sector petrolero', fontsize=20)
-plt.ylabel('Demanda', fontsize =16)
-for year in range(2005,2020):
+plt.title('Demanda de gas natural en el sector petrolero en México', fontsize=20)
+plt.ylabel('Demanda ', fontsize =16)
+for year in range(2005,2021):
     plt.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--')
+
+
+#Ploting the ACF (Autocorrelation function)
+acf_plot = plot_acf(demanda_petrolero.dropna(), lags=100)
+
+#Ploting the PACF (Partial Autocorrelation function)
+pacf_plot = plot_pacf(demanda_petrolero.dropna())
+
 
 plt.show()
