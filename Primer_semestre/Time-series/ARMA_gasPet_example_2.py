@@ -41,7 +41,7 @@ pacf_plot = plot_pacf(demanda_petrolero.dropna())
 
 ## Get training and testing sets 
 train_end = datetime(2018,12,1)
-test_end = datetime(2024,12,1)
+test_end = datetime(2023,10,1)
 ##This means we are taking from 2005 to 2018 as traning data to predict 2019 and 2020
 
 train_data = demanda_petrolero[:train_end]
@@ -49,12 +49,14 @@ test_data = demanda_petrolero[train_end+ timedelta(days=1):datetime(2023,10,1)]
 
 ##get prediction start and end dates 
 pred_start_date = test_data.index[0]
-pred_end_date = test_data.index[-1]
+pred_end_date = datetime(2023,10,1)
 
 
 ## Fit the AR Model 
 
 ##Create the model and making just one prediction for iteration and then the next prediction and so on 
+##Rolling forecasting origin 
+print(test_data.index)
 
 predictions_rolling = pd.Series()
 for end_date in test_data.index:
@@ -67,7 +69,7 @@ for end_date in test_data.index:
 
 residuals_rollling = test_data - predictions_rolling 
 
-
+print(test_data.index)
 ##Summary of the model 
 print(model_fit.summary())
 
@@ -90,7 +92,7 @@ plt.legend(('Data', 'Predictions'), fontsize=16)
 
 plt.title('Demanda sector petrolero test_data & predicitons ARMA(5,0,10) model', fontsize=20)
 plt.ylabel('Demanda [MMpcd]', fontsize=16)
-for year in range(2019,2024):
+for year in range(2019,2023):
     plt.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--')
 
 
