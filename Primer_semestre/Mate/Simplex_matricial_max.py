@@ -10,20 +10,17 @@ A = np.array([[1,0,1,0,0],[0,2,0,1,0,],[3,2,0,0,1]])
 print('La matriz de coeficientes del problema original en forma estandar es:')
 print(A)
 
-
 #C son los valores de los coeficientes en la función objetivo (incluye slack, artificiales y de surplus)
 print('El vector C de coeficientes de la función objetivo es:')
 #Para maximo se resta M y para mínimo se suma M en C (función objetivo)
 C = np.array([3,5,0,0,0])
 print(C)
 
-
 # b= Vector de valores de las restricciones
 print('El vector de valores de la restricciones es:')
 b = np.array([4,12,18])
 print(b)
 print(b[1])
-
 
 #Para conocer los valores de B, B-1 y CB es necesario conocer cuales son las variables básicas en la última tabla del tableau de simplex
 #cb es el vector de coeficientes de valores de las bases en la función objetivo 
@@ -34,7 +31,6 @@ B = np.array([[1,0,1],[0,2,0],[0,2,3]])
 print('La matriz de coeficientes de la base es:')
 print(B)
 
-
 # To calculate optimum value
 # First we calculate B-1
 try:
@@ -44,14 +40,11 @@ try:
 except:
     print("Singular Matrix, Inverse not possible.")
 
-
 # Then we calculate optimum value =  Cb* B-1*b
 valor_optimo_calculo_anterior = cb.dot(B_inv)
 valor_optimo_def = valor_optimo_calculo_anterior.dot(b)
 print('El valor optimo es:')
 print(valor_optimo_def)
-
-
 
 # To calculate final coeficient matrix
 # Is the coeficiente matrix in the last tableau table 
@@ -75,7 +68,6 @@ Z_res2 = Z_res1.dot(A)
 Z_resultante = Z_res2 - C
 print('El vector de coeficientes de la función objetivo en el último tableu (óptimo) es:')
 print(Z_resultante)
-
 
 
 # SENSITIVITY ANALYSIS 

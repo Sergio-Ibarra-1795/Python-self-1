@@ -14,27 +14,43 @@ def parser(s):
     return datetime.strptime(s, '%m/%d/%Y')
 
 ##read data 
-demanda_electrico = pd.read_csv(R'Demanda_electrico.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
+demanda_petrolero = pd.read_csv(R'Demanda_petrolero.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
 
-demanda_electrico.rename('Demanda', inplace= True)
-
-print(demanda_electrico.head())
-
+demanda_petrolero.rename('Demanda', inplace= True)
+print(demanda_petrolero.head())
 
 
 plt.figure(figsize=(10,4))
-plt.plot(demanda_electrico)
-plt.title('Demanda de gas natural en el sector electrico en México', fontsize=20)
+plt.plot(demanda_petrolero)
+plt.title('Demanda de gas natural en el sector petrolero en México', fontsize=20)
 plt.ylabel('Demanda [MMpcd]', fontsize =16)
 for year in range(2005,2021):
     plt.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--')
 
 
-#Ploting the ACF (Autocorrelation function)
-acf_plot = plot_acf(demanda_electrico.dropna(), lags=100)
+#Ploting the ACF for the ARMA model  (Autocorrelation function)
+acf_plot = plot_acf(demanda_petrolero.dropna(), lags=100)
 
-#Ploting the PACF (Partial Autocorrelation function)
-pacf_plot = plot_pacf(demanda_electrico.dropna())
+#Ploting the PACF for the ARMA model (Partial Autocorrelation function)
+pacf_plot = plot_pacf(demanda_petrolero.dropna())
+
+
+diff = demanda_petrolero.diff()
+##Ploting the diff() for the ARIMA model 
+plt.figure(figsize=(10,4))
+plt.plot(diff)
+plt.title('Demanda de gas natural en el sector petrolero en México', fontsize=20)
+plt.ylabel('Demanda [MMpcd]', fontsize =16)
+for year in range(2005,2021):
+    plt.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--')
+
+
+#Ploting the ACF for the ARIMA model (Autocorrelation function)
+acf_plot = plot_acf(diff.dropna(), lags=100)
+
+#Ploting the PACF for the ARIMA model (Partial Autocorrelation function)
+pacf_plot = plot_pacf(diff.dropna())
+
 
 
 ##BASED on PACF function we shoul start with an AR model with lags 1,2 or 5 
@@ -44,12 +60,12 @@ train_end = datetime(2018,12,1)
 test_end = datetime(2024,12,1)
 ##This means we are taking from 2005 to 2018 as traning data to predict 2019 and 2020
 
-train_data = demanda_electrico[:train_end]
-test_data = demanda_electrico[train_end+ timedelta(days=1):test_end]
+train_data = demanda_petrolero[:train_end]
+test_data = demanda_petrolero[train_end+ timedelta(days=1):test_end]
 
 ## Fit the AR Model 
 ##Create the model
-model = ARIMA (train_data, order=(12,0,10))
+model = ARIMA (train_data, order=(5,1,5))
 
 ##Fit the model
 start = time()
@@ -72,7 +88,7 @@ residuals = test_data - predictions
 ##Ploting the residuals 
 plt.figure(figsize =(10,4))
 plt.plot(residuals)
-plt.title('Residuals from ARMA Model', fontsize=20)
+plt.title('Residuals from ARIMA Model', fontsize=20)
 plt.ylabel('Error', fontsize=16)
 plt.axhline(0, color='r', linestyle='--', alpha=0.2)
 for year in range(2019,2020):
@@ -86,7 +102,7 @@ plt.plot(test_data)
 plt.plot(predictions)
 plt.legend(('Data', 'Predictions'), fontsize=16)
 
-plt.title('Demanda sector electrico test_data & predicitons ARMA(12,0,10) model', fontsize=20)
+plt.title('Demanda sector petrolero test_data & predicitons ARIMA(5,1,5) model', fontsize=20)
 plt.ylabel('Demanda [MMpcd]', fontsize=16)
 for year in range(2019,2024):
     plt.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--')

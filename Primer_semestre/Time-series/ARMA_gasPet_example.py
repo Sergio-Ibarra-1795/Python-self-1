@@ -49,7 +49,7 @@ test_data = demanda_petrolero[train_end+ timedelta(days=1):test_end]
 
 ## Fit the AR Model 
 ##Create the model
-model = ARIMA (train_data, order=(12,0,10))
+model = ARIMA (train_data, order=(5,0,5))
 
 ##Fit the model
 start = time()
@@ -86,7 +86,7 @@ plt.plot(test_data)
 plt.plot(predictions)
 plt.legend(('Data', 'Predictions'), fontsize=16)
 
-plt.title('Demanda sector petrolero test_data & predicitons ARMA(5,0,10) model', fontsize=20)
+plt.title('Demanda sector petrolero test_data & predicitons ARMA(5,0,5) model', fontsize=20)
 plt.ylabel('Demanda [MMpcd]', fontsize=16)
 for year in range(2019,2024):
     plt.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--')
