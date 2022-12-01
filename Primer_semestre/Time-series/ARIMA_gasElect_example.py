@@ -14,28 +14,23 @@ def parser(s):
     return datetime.strptime(s, '%m/%d/%Y')
 
 ##read data 
-demanda_petrolero = pd.read_csv(R'Demanda_electrico.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
+##demanda_electrico = pd.read_csv(R'Demanda_electrico.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
+demanda_electrico = pd.read_csv(R'C:\Users\llell\Documents\SIR_Personal\Python-self-HPi5\Python-self-1\Primer_semestre\Time-series\Demanda_electrico.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
 
-demanda_petrolero.rename('Demanda', inplace= True)
-print(demanda_petrolero.head())
+
+demanda_electrico.rename('Demanda', inplace= True)
+print(demanda_electrico.head())
 
 
 plt.figure(figsize=(10,4))
-plt.plot(demanda_petrolero)
+plt.plot(demanda_electrico)
 plt.title('Demanda de gas natural en el sector electrico en México', fontsize=20)
 plt.ylabel('Demanda [MMpcd]', fontsize =16)
 for year in range(2005,2021):
     plt.axvline(pd.to_datetime(str(year)+'-01-01'), color='k', linestyle='--')
 
 
-#Ploting the ACF for the ARMA model  (Autocorrelation function)
-acf_plot = plot_acf(demanda_petrolero.dropna(), lags=100)
-
-#Ploting the PACF for the ARMA model (Partial Autocorrelation function)
-pacf_plot = plot_pacf(demanda_petrolero.dropna())
-
-
-diff = demanda_petrolero.diff()
+diff = demanda_electrico.diff()
 ##Ploting the diff() for the ARIMA model 
 plt.figure(figsize=(10,4))
 plt.plot(diff)
@@ -60,8 +55,8 @@ train_end = datetime(2018,12,1)
 test_end = datetime(2024,12,1)
 ##This means we are taking from 2005 to 2018 as traning data to predict 2019 and 2020
 
-train_data = demanda_petrolero[:train_end]
-test_data = demanda_petrolero[train_end+ timedelta(days=1):test_end]
+train_data = demanda_electrico[:train_end]
+test_data = demanda_electrico[train_end+ timedelta(days=1):test_end]
 
 ## Fit the AR Model 
 ##Create the model

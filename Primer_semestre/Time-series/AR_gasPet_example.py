@@ -15,7 +15,8 @@ def parser(s):
     return datetime.strptime(s, '%m/%d/%Y')
 
 ##read data 
-demanda_petrolero = pd.read_csv(R'Demanda_petrolero.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
+#demanda_petrolero = pd.read_csv(R'Demanda_petrolero.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
+demanda_petrolero = pd.read_csv(R'C:\Users\llell\Documents\SIR_Personal\Python-self-HPi5\Python-self-1\Primer_semestre\Time-series\Demanda_petrolero.csv', parse_dates=[0], index_col=0, squeeze=true, date_parser=parser, encoding = 'utf-8')
 
 demanda_petrolero.rename('Demanda', inplace= True)
 
